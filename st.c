@@ -430,36 +430,13 @@ void
 xflip(void) {
 	if(xw.win == NULL) return;
     //printf("flip\n");
-#ifdef RS97_NO
-    SDL_Surface* buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, xw.w, xw.h, 16, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
-    SDL_BlitSurface(xw.win, NULL, buffer, NULL);
-    draw_keyboard(buffer);
-
-    SDL_LockSurface(buffer);
-    SDL_LockSurface(screen);
-    for(int j = 0; j < buffer->h; j++) {
-        memcpy(screen->pixels + j * 2 * screen->pitch, buffer->pixels + j * buffer->pitch, buffer->w * 2);
-        memcpy(screen->pixels + (j * 2 + 1) * screen->pitch, buffer->pixels + j * buffer->pitch, buffer->w * 2);
-        for(int i = 0; i < buffer->w; i++) {
-            SDL_Rect rect = {i * 4, j * 4, 4, 4};
-            SDL_FillRect(screen, &rect, ((unsigned short*)buffer->pixels)[j * (buffer->pitch >> 1) + i]);
-        }
-    }
-    SDL_UnlockSurface(buffer);
-    SDL_UnlockSurface(screen);
-#else
 		SDL_BlitSurface(xw.win, NULL, screen, NULL);
 		draw_keyboard(screen);
-#endif
 
 	if(SDL_Flip(screen)) {
-	//if(SDL_Flip(xw.win)) {
-		fputs("FLIP ERROR\n", stderr);
-		exit(EXIT_FAILURE);
+	        //fputs("FLIP ERROR\n", stderr);
+		//exit(EXIT_FAILURE);
 	}
-#ifdef RS97_NO
-    SDL_FreeSurface(buffer);
-#endif
 }
 
 int
@@ -2351,7 +2328,9 @@ sdlinit(void) {
     //xw.w = initial_width;
     //xw.h = initial_height;
 
-#ifdef RS97_SCREEN_480
+#ifdef FUNKEY_S
+	if(!(screen = SDL_SetVideoMode(240, 240, 16, SDL_SWSURFACE | SDL_DOUBLEBUF))) {
+#elif RS97_SCREEN_480
 	if(!(screen = SDL_SetVideoMode(320, 480, 16, SDL_SWSURFACE | SDL_DOUBLEBUF))) {
 #else
 	if(!(screen = SDL_SetVideoMode(320, 240, 16, SDL_HWSURFACE | SDL_DOUBLEBUF))) {
@@ -2740,7 +2719,9 @@ cresize(int width, int height)
 	row = (xw.h - 2*borderpx) / xw.ch;
 
     printf("set videomode %dx%d\n", xw.w, xw.h);
-#ifdef RS97_SCREEN_480
+#ifdef FUNKEY_S
+	if(!(screen = SDL_SetVideoMode(240, 240, 16, SDL_SWSURFACE | SDL_DOUBLEBUF))) {
+#elif RS97_SCREEN_480
 	if(!(screen = SDL_SetVideoMode(320, 480, 16, SDL_SWSURFACE | SDL_DOUBLEBUF))) {
 #else
 	if(!(screen = SDL_SetVideoMode(320, 240, 16, SDL_HWSURFACE | SDL_DOUBLEBUF))) {

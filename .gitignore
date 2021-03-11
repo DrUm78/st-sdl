@@ -1,0 +1,4 @@
+*.o
+*.opk
+st
+config.h

@@ -4,6 +4,27 @@
 #define NUM_ROWS 6
 #define NUM_KEYS 18
 
+#ifdef FUNKEY_S
+#define KEY_UP SDLK_u
+#define KEY_DOWN SDLK_d
+#define KEY_LEFT SDLK_l
+#define KEY_RIGHT SDLK_r
+#define KEY_ENTER SDLK_a // A
+#define KEY_TOGGLE SDLK_b // B
+#define KEY_BACKSPACE SDLK_n // R
+#define KEY_SHIFT SDLK_m // L
+#define KEY_LOCATION SDLK_y // Y
+#define KEY_ACTIVATE SDLK_x // X
+#define KEY_QUIT SDLK_q // POWER
+#define KEY_HELP SDLK_RETURN // NOTHING
+#define KEY_TAB SDLK_h // Fn + DOWN
+#define KEY_RETURN SDLK_s // START
+#define KEY_ARROW_LEFT	SDLK_v // L2
+#define KEY_ARROW_RIGHT	SDLK_o // R2
+#define KEY_ARROW_UP	SDLK_j // Fn + LEFT
+#define KEY_ARROW_DOWN	SDLK_i // Fn + RIGHT
+#else
+
 //#ifdef RS97
 
 #define KEY_UP SDLK_UP
@@ -39,6 +60,7 @@
 #define KEY_ACTIVATE SDLK_BACKQUOTE
 
 #endif*/
+#endif
 
 #define KMOD_SYNTHETIC (1 << 13)
 
@@ -105,16 +127,16 @@ char* help =
 "  A:  press key\n"
 "  B:  toggle key (useful for shift/ctrl...)\n"
 "  L1: shift\n"
-"  R2: backspace\n"
+"  R1: backspace\n"
 "  Y:  change keyboard location (top/bottom)\n"
 "  X:  show / hide keyboard\n"
-"  START:  enter\n"
-"  SELECT: tab\n"
-"  L2:     left\n"
-"  R2:     right\n"
-"  L3:     up\n"
-"  R3:     down\n"
-"  POWER:  quit\n\n"
+"  START:    enter\n"
+"  Fn+DOWN:  tab\n"
+"  L2:       left\n"
+"  R2:       right\n"
+"  Fn+LEFT:  up\n"
+"  Fn+RIGHT: down\n"
+"  POWER:    quit\n\n"
 "Cheatcheet (tutorial at www.shellscript.sh):\n"
 "  TAB key         complete path\n"
 "  UP/DOWN keys    navigate history\n"
@@ -135,7 +157,7 @@ void draw_keyboard(SDL_Surface* surface) {
 	unsigned short toggled_color = SDL_MapRGB(surface->format, 192, 192, 0);
 	if(show_help) {
 		SDL_FillRect(surface, NULL, text_color);
-		draw_string(surface, "SDL Terminal by Benob, based on st-sdl", 42, 10, sel_toggled_color);
+		draw_string(surface, "SDL Terminal by Benob, based on st-sdl", 0, 10, sel_toggled_color);
 		draw_string(surface, help, 8, 30, sel_color);
 		return;
 	}
