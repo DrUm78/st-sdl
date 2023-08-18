@@ -8,8 +8,8 @@
 //static char font[] = "fonts/TerminusTTF-4.46.0.ttf:fonts/TerminusTTF-4.46.0.ttf";
 static char font[] = "fonts/FIXED_V0.TTF:fonts/FIXED_V0.TTF";
 static int fontsize = 8;
-static int borderpx = 2;
-static int initial_width = 320;
+static int borderpx = 4;
+static int initial_width = 240;
 static int initial_height = 240;
 static char shell[] = "/bin/sh";
 
